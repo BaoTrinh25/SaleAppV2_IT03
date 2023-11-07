@@ -1,12 +1,31 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from SaleAppV2_IT03.app import db
+from app import db
+from flask_login import UserMixin
+
+
+class User(db.Model, UserMixin):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), nullable=False)
+    username = Column(String(50), nullable=False, unique=True)
+    password = Column(String(100), nullable=False)
+    avatar = Column(String(100), default='https://res.cloudinary.com/dxxwcby8l/image/upload/v1690461425/bqjr27d0xjx4u78ghp3s.jpg')
+
+    def __str__(self):
+        return self.name
 
 
 class Category(db.Model):
+    __tablename__ = 'category'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50), nullable=False, unique=True)
     products = relationship('Product', backref='category', lazy=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50), nullable=False, unique=True)
@@ -14,20 +33,29 @@ class Product(db.Model):
     image = Column(String(100))
     category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
 
-if __name__ == '__main__':
-    from SaleAppV2_IT03.app import app
 
+if __name__ == "__main__":
+    from app import app
     with app.app_context():
-        # c1 = Category(name='Mobile')
-        # c2 = Category(name='Tablet')
-        # db.session.add(c1)
-        # db.session.add(c2)
+        db.create_all()
 
-        p1 = Product(name='iPhone 13', price=22000000, category_id=1, image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh3NyvBAdWsidoZ1r_iSn9mtUbPI7aqysds3RcScZ9OMADWwfWfMJIBNfVs5MuLxoTTQM&usqp=CAU")
-        p2 = Product(name='iPad Pro 2022', price=24000000, category_id=2, image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh3NyvBAdWsidoZ1r_iSn9mtUbPI7aqysds3RcScZ9OMADWwfWfMJIBNfVs5MuLxoTTQM&usqp=CAU")
-        p3 = Product(name='iPhone 13', price=27000000, category_id=1, image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh3NyvBAdWsidoZ1r_iSn9mtUbPI7aqysds3RcScZ9OMADWwfWfMJIBNfVs5MuLxoTTQM&usqp=CAU")
-        p4 = Product(name='Note 23+', price=22000000, category_id=1, image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh3NyvBAdWsidoZ1r_iSn9mtUbPI7aqysds3RcScZ9OMADWwfWfMJIBNfVs5MuLxoTTQM&usqp=CAU")
-        p5 = Product(name='Galaxy Tab 9', price=22000000, category_id=2, image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh3NyvBAdWsidoZ1r_iSn9mtUbPI7aqysds3RcScZ9OMADWwfWfMJIBNfVs5MuLxoTTQM&usqp=CAU")
+        c1 = Category(name='Mobile')
+        c2 = Category(name='Tablet')
+
+        db.session.add(c1)
+        db.session.add(c2)
+        db.session.commit()
+
+        p1 = Product(name='iPad Pro 2022', price=24000000, category_id=2,
+                     image="https://res.cloudinary.com/dxxwcby8l/image/upload/v1690461425/bqjr27d0xjx4u78ghp3s.jpg")
+        p2 = Product(name='iPhone 13', price=21000000, category_id=1,
+                     image="https://res.cloudinary.com/dxxwcby8l/image/upload/v1690461425/bqjr27d0xjx4u78ghp3s.jpg")
+        p3 = Product(name='Galaxy S23', price=24000000, category_id=1,
+                     image="https://res.cloudinary.com/dxxwcby8l/image/upload/v1690461425/bqjr27d0xjx4u78ghp3s.jpg")
+        p4 = Product(name='Note 22', price=22000000, category_id=1,
+                     image="https://res.cloudinary.com/dxxwcby8l/image/upload/v1690461425/bqjr27d0xjx4u78ghp3s.jpg")
+        p5 = Product(name='Galaxy Tab S9', price=24000000, category_id=2,
+                     image="https://res.cloudinary.com/dxxwcby8l/image/upload/v1690461425/bqjr27d0xjx4u78ghp3s.jpg")
+
         db.session.add_all([p1, p2, p3, p4, p5])
         db.session.commit()
-        #db.create_all()
