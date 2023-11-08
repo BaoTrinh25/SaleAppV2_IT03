@@ -1,4 +1,4 @@
-from SaleAppV2_IT03.app.models import Category, Product, User
+from app.models import Category, Product, User
 
 
 def load_categories():

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from SaleAppV2_IT03.app import db
+from app import db
 from flask_login import UserMixin
 
 
@@ -36,7 +36,7 @@ class Product(db.Model):
 
 
 if __name__ == "__main__":
-    from SaleAppV2_IT03.app import app
+    from app import app
     with app.app_context():
         # db.create_all()
         #

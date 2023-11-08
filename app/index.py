@@ -1,6 +1,6 @@
 from flask import render_template, request
 import dao
-from SaleAppV2_IT03.app import app, login
+from app import app, login
 
 
 @app.route('/')
@@ -30,5 +30,5 @@ def load_user(user_id):
 
 
 if __name__ == '__main__':
-    from SaleAppV2_IT03.app import admin
+    from app import admin
     app.run(debug=True, port= 5544)

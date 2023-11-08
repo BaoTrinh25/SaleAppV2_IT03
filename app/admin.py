@@ -1,7 +1,7 @@
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin, BaseView, expose
-from SaleAppV2_IT03.app import app, db
-from SaleAppV2_IT03.app.models import Category, Product
+from app import app, db
+from app.models import Category, Product
 
 
 admin = Admin(app=app, name='QUẢN TRỊ BÁN HÀNG', template_mode='bootstrap4')
